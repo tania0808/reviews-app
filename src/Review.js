@@ -3,37 +3,49 @@ import people from "./data";
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
 
 const Review = () => {
-  const [iterator, setIterator] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  const checkIndex = (index) => {
+    if (index > people.length - 1) {
+      return 0;
+    }
+    if (index < 0) {
+      return people.length - 1;
+    }
+    return index;
+  }
 
   const nextPerson = () => {
-    setIterator(iterator + 1);
-    if (iterator === people.length - 1) {
-      setIterator(0);
-    }
+    setIndex(index => {
+      let newIndex = index + 1;
+      return checkIndex(newIndex)
+    });
   };
 
   const previousPerson = () => {
-    setIterator(iterator - 1);
-    if (iterator <= 0) {
-      setIterator(people.length - 1);
-    }
+    setIndex(index => {
+      let newIndex = index - 1;
+      return checkIndex(newIndex)
+    });
   };
 
+  console.log(index);
+
   const randomPerson = () => {
-    setIterator(Math.floor(Math.random() * (people.length - 1)));
+    setIndex(Math.floor(Math.random() * (people.length - 1)));
   }
 
   return (
     <div className="review-card">
       <div className="image-container">
-        <img src={people[iterator].image} alt="" />
+        <img src={people[index].image} alt="" />
         <span className="quote">
           <FaQuoteRight />
         </span>
       </div>
-      <h4 className="person-name">{people[iterator].name}</h4>
-      <p className="person-job">{people[iterator].job}</p>
-      <p>{people[iterator].text}</p>
+      <h4 className="person-name">{people[index].name}</h4>
+      <p className="person-job">{people[index].job}</p>
+      <p>{people[index].text}</p>
       <div className="button-container">
         <button onClick={previousPerson}>
           <FaChevronLeft />
